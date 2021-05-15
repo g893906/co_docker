@@ -1,0 +1,38 @@
+version: '3'
+services:
+  postgres:
+    hostname: PostgreSQL
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - redmine_postgresql:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=redmine
+      - POSTGRES_PASSWORD=7aww7buf
+    image:
+      postgres
+  redmine:
+    hostname: Redmine
+    restart: always
+    ports:
+      - "3088:3000"
+    volumes:
+      - redmine_config:/usr/src/redmine/config
+      - redmine_files:/usr/src/redmine/files/files
+    environment:
+      - REDMINE_DB_POSTGRES=postgres
+      - REDMINE_DB_DATABASE=redmine
+      - REDMINE_DB_USERNAME=redmine
+      - REDMINE_DB_PASSWORD=7aww7buf
+    links:
+      - postgres:postgres
+    image:
+      redmine
+volumes:
+  redmine_postgresql:
+  redmine_config:
+  redmine_files:
+
+
+
